@@ -4,21 +4,25 @@ const session = require('express-session')
 //web server
 const app = express()
 
-const cartRoute = require(__dirname + '/routes/cartRoute')
-
-app.use(express.urlencoded({ extended: false }))
-app.use(express.json())
-
-app.use('/cart', cartRoute)
+//api router
+const apiIndex = require(__dirname + '/routes/cartRoutes')
+app.use('/api', apiIndex)
+apiIndex.get('/cart', (req, res) => {})
 
 //route
 app.get('/', (req, res) => {
-  res.send('Hello World')
+  res.send('123')
 })
-app.get('/cart', (req, res) => {})
 
 //static folder
 app.use(express.static(__dirname + '/../public'))
+
+//404
+app.use((req, res) => {
+  res.type('text/plain')
+  res.status(404)
+  res.send('404 Not Found')
+})
 
 //server listen
 app.listen(3000, () => {
