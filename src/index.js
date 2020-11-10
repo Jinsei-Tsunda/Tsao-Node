@@ -3,11 +3,17 @@ const session = require('express-session')
 
 //web server
 const app = express()
+const bodyParser = require('body-parser')
+const cors = require('cors')
+
+//app use
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cors())
 
 //api router
-const apiIndex = require(__dirname + '/routes/cartRoutes')
-app.use('/api', apiIndex)
-apiIndex.get('/cart', (req, res) => {})
+const cartRoutes = require(__dirname + '/routes/cartRoutes')
+app.use('/api', cartRoutes)
 
 //route
 app.get('/', (req, res) => {
